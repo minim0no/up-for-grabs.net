@@ -319,7 +319,7 @@ define(['underscore', 'tag-builder', 'project-ordering'], (
       return _.sortBy(tagsMap, (entry) => entry.name.toLowerCase());
     };
 
-    this.getPlatforms() = function () {
+    this.getPlatforms = function () {
       return _.sortBy(platformsMap, (entry) => entry.toLowerCase()); 
     }
 
