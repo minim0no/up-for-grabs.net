@@ -289,6 +289,10 @@ define(['underscore', 'tag-builder', 'project-ordering'], (
     this.getPopularTags = function (popularTagCount) {
       return _.take(_.values(tagsMap), popularTagCount || 10);
     };
+
+    this.getPlatforms = function (platformCount) {
+      return _.take(_.values(platformsMap), platformCount || 10);
+    };
   };
 
   return ProjectsService;
