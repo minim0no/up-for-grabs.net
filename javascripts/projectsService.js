@@ -279,7 +279,7 @@ define(['underscore', 'tag-builder', 'project-ordering'], (
       platformsMap[project.name.toLowerCase()] = platform.hostname;
     })
 
-    this.get = function (tags, names, labels, date) {
+    this.get = function (tags, names, labels, date, platforms) {
       let filteredProjects = projects;
       if (names && names.length) {
         filteredProjects = applyNamesFilter(
@@ -303,6 +303,13 @@ define(['underscore', 'tag-builder', 'project-ordering'], (
           filteredProjects,
           this.getTags(),
           tags
+        );
+      }
+      if (platforms && platforms.length) {
+        filteredProjects = applyPlatformsFilter(
+          filteredProjects,
+          this.getPlatforms(),
+          platforms
         );
       }
       return filteredProjects;
