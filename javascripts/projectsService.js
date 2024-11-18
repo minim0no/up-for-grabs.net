@@ -196,7 +196,6 @@ define(['underscore', 'tag-builder', 'project-ordering'], (
     return _.flatten(results, (arr1, arr2) => arr1.append(arr2));
   };
 
-
   /*
    * The function here is used for front end filtering when given
    * selecting certain projects. It ensures that only the selected projects
@@ -207,30 +206,35 @@ define(['underscore', 'tag-builder', 'project-ordering'], (
    *              projects in a sorted order
    * @param Array platforms : This is an array with the given platform filters.
    */
-  const applyPlatformsFilter = function (projects, projectPlatformsSorted, platforms) {
+  const applyPlatformsFilter = function (
+    projects,
+    projectPlatformsSorted,
+    platforms
+  ) {
     if (typeof platforms === 'string') {
       platforms = platforms.split(',');
     }
 
-    platforms = _.map(platforms, (entry) => entry && entry.replace(/^\s+|\s+$/g, ''));
+    platforms = _.map(
+      platforms,
+      (entry) => entry && entry.replace(/^\s+|\s+$/g, '')
+    );
 
     if (!platforms || !platforms.length || platforms[0] == '') {
       return projects;
     }
-
 
     // find all projects with the given platforms
     results = _.map(platforms, (hostname) => {
       return _.filter(projects, (project) => {
         const curHostname = new URL(String(project.upforgrabs.link)).hostname;
         return curHostname === hostname;
-      })
-    })
+      });
+    });
 
-
-    // the above statements returns n arrays in an array, which we flatten here and return then 
-    return _.flatten(results, (arr1, arr2) => arr1.append(arr2)); 
-  }
+    // the above statements returns n arrays in an array, which we flatten here and return then
+    return _.flatten(results, (arr1, arr2) => arr1.append(arr2));
+  };
 
   const extractTags = function (projectsData) {
     const tagBuilder = new TagBuilder();
@@ -276,18 +280,16 @@ define(['underscore', 'tag-builder', 'project-ordering'], (
 
     _.each(_projectsData.projects, (project) => {
       const platform = new URL(project.upforgrabs.link);
-      
+
       if (platform.hostname in platformsMap) {
         platformsMap[platform.hostname].frequency += 1;
-      }
-      else {
+      } else {
         platformsMap[platform.hostname] = {
           hostname: platform.hostname,
-          frequency: 1
+          frequency: 1,
         };
       }
-    })
-
+    });
 
     this.get = function (tags, names, labels, date, platforms) {
       let filteredProjects = projects;
@@ -330,8 +332,8 @@ define(['underscore', 'tag-builder', 'project-ordering'], (
     };
 
     this.getPlatforms = function () {
-      return _.sortBy(platformsMap, (entry) => entry.hostname.toLowerCase()); 
-    }
+      return _.sortBy(platformsMap, (entry) => entry.hostname.toLowerCase());
+    };
 
     this.getNames = function () {
       return _.sortBy(namesMap, (entry) => entry.name.toLowerCase());
@@ -346,9 +348,14 @@ define(['underscore', 'tag-builder', 'project-ordering'], (
     };
 
     this.getPopularPlatforms = function (popularPlatformCount) {
-      return _.take(_.sortBy(_.values(platformsMap), (platform) => platform.frequency).reverse(), popularPlatformCount || 6)
+      return _.take(
+        _.sortBy(
+          _.values(platformsMap),
+          (platform) => platform.frequency
+        ).reverse(),
+        popularPlatformCount || 6
+      );
     };
-    
   };
 
   return ProjectsService;

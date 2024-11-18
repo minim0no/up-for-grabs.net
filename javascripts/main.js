@@ -64,7 +64,14 @@ define([
     return `about ${Math.round(elapsed / msPerYear)} years ago`;
   }
 
-  const renderProjects = function (projectService, tags, names, labels, date, platforms) {
+  const renderProjects = function (
+    projectService,
+    tags,
+    names,
+    labels,
+    date,
+    platforms
+  ) {
     const allTags = projectService.getTags();
 
     projectsPanel.html(
@@ -80,7 +87,7 @@ define([
         selectedLabels: labels,
         platforms: projectService.getPlatforms(),
         popularPlatforms: projectService.getPopularPlatforms(4),
-        selectedPlatforms: platforms
+        selectedPlatforms: platforms,
       })
     );
     date = date || 'invalid';
@@ -177,7 +184,6 @@ define([
     });
 
     projectsPanel.find('ul.popular-platforms li a').each((i, elem) => {
-
       // add selected class on load
       let selPlatforms = getParameterByName('platforms') || '';
       if (selPlatforms) {
@@ -196,13 +202,13 @@ define([
         let selPlatforms = getParameterByName('platforms') || '';
         if (selPlatforms.indexOf(curPlatform) === -1) {
           selPlatforms += selPlatforms ? `,${curPlatform}` : curPlatform;
+        } else {
+          selPlatforms = selPlatforms
+            .split(',')
+            .filter((platform) => platform !== curPlatform)
+            .join(',');
         }
-        else {
-          selPlatforms = selPlatforms.split(',')
-            .filter(platform => platform !== curPlatform) 
-            .join(','); 
-        }
-    
+
         location.href = updateQueryStringParameter(
           getFilterUrl(),
           'platforms',
@@ -374,7 +380,7 @@ define([
           const labels = prepareForHTML(getParameterByName('labels'));
           const names = prepareForHTML(getParameterByName('names'));
           const tags = prepareForHTML(getParameterByName('tags'));
-          const platforms = prepareForHTML(getParameterByName('platforms')); 
+          const platforms = prepareForHTML(getParameterByName('platforms'));
           const date = getParameterByName('date');
           renderProjects(projectsSvc, tags, names, labels, date, platforms);
         });
