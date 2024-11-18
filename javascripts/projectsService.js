@@ -276,8 +276,18 @@ define(['underscore', 'tag-builder', 'project-ordering'], (
 
     _.each(_projectsData.projects, (project) => {
       const platform = new URL(project.upforgrabs.link);
-      platformsMap[project.name.toLowerCase()] = platform.hostname;
+      
+      if (platform.hostname in platformsMap) {
+        platformsMap[platform.hostname].frequency += 1;
+      }
+      else {
+        platformsMap[platform.hostname] = {
+          hostname: platform.hostname,
+          frequency: 1
+        };
+      }
     })
+
 
     this.get = function (tags, names, labels, date, platforms) {
       let filteredProjects = projects;
@@ -320,7 +330,7 @@ define(['underscore', 'tag-builder', 'project-ordering'], (
     };
 
     this.getPlatforms = function () {
-      return _.sortBy(platformsMap, (entry) => entry.toLowerCase()); 
+      return _.sortBy(platformsMap, (entry) => entry.hostname.toLowerCase()); 
     }
 
     this.getNames = function () {
@@ -335,9 +345,10 @@ define(['underscore', 'tag-builder', 'project-ordering'], (
       return _.take(_.values(tagsMap), popularTagCount || 10);
     };
 
-    this.getPopularPlatforms = function (platformCount) {
-      return _.take(_.values(platformsMap), platformCount || 10);
+    this.getPopularPlatforms = function (popularPlatformCount) {
+      return _.take(_.sortBy(_.values(platformsMap), (platform) => platform.frequency).reverse(), popularPlatformCount || 6)
     };
+    
   };
 
   return ProjectsService;
