@@ -218,6 +218,8 @@ define(['underscore', 'tag-builder', 'project-ordering'], (
     const tagsMap = {};
     const namesMap = {};
     const labelsMap = {};
+    const platformsMap = {};
+    console.log(_projectsData.projects); // REMOVE
 
     const projects = orderAllProjects(_projectsData.projects, (length) =>
       _.shuffle(_.range(length))
@@ -236,6 +238,12 @@ define(['underscore', 'tag-builder', 'project-ordering'], (
     _.each(_projectsData.projects, (project) => {
       labelsMap[project.upforgrabs.name.toLowerCase()] = project.upforgrabs;
     });
+
+
+    _.each(_projectsData.projects, (project) => {
+      const platform = new URL(project.upforgrabs.link);
+      platformsMap[project.name.toLowerCase()] = platform.hostname;
+    })
 
     this.get = function (tags, names, labels, date) {
       let filteredProjects = projects;
