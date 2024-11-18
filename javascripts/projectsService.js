@@ -319,6 +319,10 @@ define(['underscore', 'tag-builder', 'project-ordering'], (
       return _.sortBy(tagsMap, (entry) => entry.name.toLowerCase());
     };
 
+    this.getPlatforms() = function () {
+      return _.sortBy(platformsMap, (entry) => entry.toLowerCase()); 
+    }
+
     this.getNames = function () {
       return _.sortBy(namesMap, (entry) => entry.name.toLowerCase());
     };
@@ -331,7 +335,7 @@ define(['underscore', 'tag-builder', 'project-ordering'], (
       return _.take(_.values(tagsMap), popularTagCount || 10);
     };
 
-    this.getPlatforms = function (platformCount) {
+    this.getPopularPlatforms = function (platformCount) {
       return _.take(_.values(platformsMap), platformCount || 10);
     };
   };
