@@ -269,7 +269,7 @@ define(['underscore', 'tag-builder', 'project-ordering'], (
     });
 
     _.each(_projectsData.projects, (project) => {
-      if (project.name.toLowerCase) {
+      if (project.name) {
         namesMap[project.name.toLowerCase()] = project;
       }
     });
