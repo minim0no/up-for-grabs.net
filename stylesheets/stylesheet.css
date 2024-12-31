@@ -792,7 +792,7 @@ form {
   border-radius: 10px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: start;
   transition: transform ease 0.2s;
 }
 
@@ -883,18 +883,24 @@ form {
   width: 16px;
 }
 
-.popular-tags, .popular-platforms {
+.popular-tags, 
+.popular-platforms,
+.tags {
   display: flex;
   flex-wrap: wrap;
   gap: 1em 0.5em;
 }
 
-ul.popular-tags li, ul.popular-platforms li {
+ul.popular-tags li, 
+ul.popular-platforms li,
+ul.tags li {
   list-style: none;
   padding-left: 0;
 }
 
-.popular-tags a, .popular-platforms a {
+.popular-tags a,
+.popular-platforms a,
+.tags a {
   display: inline-flex;
   align-content: center;
   padding: 0.5em 0.75em;
@@ -905,10 +911,18 @@ ul.popular-tags li, ul.popular-platforms li {
   transition: all 0.3s;
 }
 
+.tags a {
+  padding: 0.25em 0.5em;
+  font-size: 12px;
+}
+
 .popular-tags a:hover,
 .popular-tags a:focus,
 .popular-tags a:focus-within,
-.popular-platforms a:hover {
+.popular-platforms a:hover,
+.tags a:hover,
+.tags a:focus,
+.tags a:focus-within {
   background-color: rgba(var(--container-rgb), 0.2);
   border-color: var(--databox-text);
   color: var(--databox-text);
